@@ -1,0 +1,93 @@
+class Solution {
+public:
+int n; 
+int m;
+queue<pair<int , int>>q;
+
+bool cango(int i , int j ,vector<vector<int>>& mat ,  vector<vector<bool>>&visit)
+{
+    return i>=0&& i<n&&j>=0&&j<m&& mat[i][j]==1&&!visit[i][j];
+}
+void f(vector<vector<int>>& mat ,vector<vector<int>>&ans ,queue<pair<int , int>>&q ,  vector<vector<bool>>&visit)
+{
+    int level=1;
+
+    while(!q.empty())
+    {
+        int ni= q.front().first;
+        int nj= q.front().second;
+        q.pop();
+
+        if(ni ==-1 && nj==-1)
+        {
+            if(!q.empty())
+            {
+                level++;
+                q.push({-1 , -1});
+            }
+        }
+
+        //up
+        if(cango(ni-1 , nj , mat , visit))
+        {
+            visit[ni-1][nj]=true;
+            q.push({ni-1 , nj});
+            ans[ni-1][nj]=level;
+
+        }
+
+        //down
+         if(cango(ni+1 , nj , mat , visit))
+        {
+            visit[ni+1][nj]=true;
+            q.push({ni+1 , nj});
+            ans[ni+1][nj]=level;
+
+
+        }
+
+        //left
+
+         if(cango(ni , nj-1 , mat , visit))
+        {
+            visit[ni][nj-1]=true;
+            q.push({ni , nj-1});
+            ans[ni][nj-1]=level;
+
+        }
+
+        //right
+         if(cango(ni , nj+1 , mat , visit))
+        {
+            visit[ni][nj+1]=true;
+            q.push({ni , nj+1});
+            ans[ni][nj+1]=level;
+
+        }
+    }
+
+}
+
+
+    vector<vector<int>> updateMatrix(vector<vector<int>>& mat) {
+        n= mat.size();
+        m=mat[0].size();
+
+        vector<vector<bool>>visit(n , vector<bool>(m , false));
+        
+        vector<vector<int>>ans(n , vector<int>(m ,0));
+
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<m;j++)
+            {
+                if(mat[i][j]==0) q.push({i , j});
+            }
+        }
+        
+        q.push({-1 , -1});
+        f(mat , ans , q , visit);
+        return ans;
+        
+    }
+};

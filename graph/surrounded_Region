@@ -1,0 +1,78 @@
+class Solution {
+public:
+int n , m;
+
+void f(vector<vector<char>>& board , vector<vector<bool>>& visit , int i , int j)
+{
+    queue<pair<int,int>> q;
+    q.push({i,j});
+    visit[i][j] = true;
+
+    while(!q.empty())
+    {
+        auto [ni,nj] = q.front();
+        q.pop();
+       // up
+        if(ni-1>=0 && board[ni-1][nj]=='O' && !visit[ni-1][nj])
+        {
+            visit[ni-1][nj]=true;
+            q.push({ni-1,nj});
+        }
+        //down
+        if(ni+1<n && board[ni+1][nj]=='O' && !visit[ni+1][nj])
+        {
+            visit[ni+1][nj]=true;
+            q.push({ni+1,nj});
+        }
+        //left
+        if(nj-1>=0 && board[ni][nj-1]=='O' && !visit[ni][nj-1])
+        {
+            visit[ni][nj-1]=true;
+            q.push({ni,nj-1});
+        }
+        //right
+        if(nj+1<m && board[ni][nj+1]=='O' && !visit[ni][nj+1])
+        {
+            visit[ni][nj+1]=true;
+            q.push({ni,nj+1});
+        }
+    }
+}
+
+void solve(vector<vector<char>>& board) {
+
+    n = board.size();
+    m = board[0].size();
+
+    vector<vector<bool>> visit(n , vector<bool>(m,false));
+
+   
+    for(int i=0;i<m;i++)
+    {
+        if(board[0][i]=='O' && !visit[0][i])
+            f(board,visit,0,i);
+
+        if(board[n-1][i]=='O' && !visit[n-1][i])
+            f(board,visit,n-1,i);
+    }
+
+ 
+    for(int i=0;i<n;i++)
+    {
+        if(board[i][0]=='O' && !visit[i][0])
+            f(board,visit,i,0);
+
+        if(board[i][m-1]=='O' && !visit[i][m-1])
+            f(board,visit,i,m-1);
+    }
+
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<m;j++)
+        {
+            if(board[i][j]=='O' && !visit[i][j])
+                board[i][j] = 'X';
+        }
+    }
+}
+};

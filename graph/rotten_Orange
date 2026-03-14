@@ -1,0 +1,75 @@
+class Solution {
+public:
+int n;
+int m;
+bool cango(int i , int j ,vector<vector<int>>& grid)
+{
+    return i>=0 && i<n&& j>=0&& j<m && grid[i][j]==1;
+}
+    int orangesRotting(vector<vector<int>>& grid) {
+         n= grid.size();
+        m= grid[0].size();
+
+        int min=0;
+        int fo=0;
+
+        queue<pair<int , int>>q;
+
+        for(int i=0;i<n;i++)
+        {
+            for(int j =0;j<m;j++)
+            {
+                if(grid[i][j]==1) fo++;
+                if(grid[i][j]==2) q.push({i ,j});
+            }
+        }
+
+        q.push({-1 , -1});
+
+        while(!q.empty())
+        {
+            int ni=q.front().first;
+            int nj=q.front().second;
+
+            q.pop();
+
+            if(ni==-1 && nj ==-1)
+            {
+                min++;
+                if(!q.empty())
+                {
+                    q.push({-1 , -1});
+                }
+            }
+
+            //up
+            if(cango(ni-1 ,nj , grid )){
+                grid[ni-1][nj]=2;
+                q.push({ni-1 , nj});
+                fo--;
+            }
+            //down
+            if(cango(ni+1 ,nj , grid )){
+                grid[ni+1][nj]=2;
+                q.push({ni+1 , nj});
+                fo--;
+            }
+
+            //left
+            if(cango(ni ,nj-1 , grid )){
+                grid[ni][nj-1]=2;
+                q.push({ni , nj-1});
+                fo--;
+            }
+
+            //right
+            if(cango(ni ,nj+1 , grid )){
+                grid[ni][nj+1]=2;
+                q.push({ni , nj+1});
+                fo--;
+            }
+        }
+
+        return (fo==0)?min-1:-1;
+    }
+};

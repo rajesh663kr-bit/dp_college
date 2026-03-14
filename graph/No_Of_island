@@ -1,0 +1,96 @@
+class Solution {
+  public:
+  
+  int n;
+  int m;
+   
+   bool cango(int i , int j ,vector<vector<char>>& grid ,vector<vector<bool>> &visite )
+   {
+       return i>=0 && i<n && j>=0 && j<m && grid[i][j]=='L' && !visite[i][j];
+   }
+   void f(vector<vector<char>>& grid ,vector<vector<bool>> &visite ,int i , int j )
+   {
+       
+       visite[i][j]=true;
+       // down
+       if(cango(i+1 , j, grid , visite))
+       {
+           
+           f(grid , visite , i+1 , j);
+       }
+       
+        // up
+       if(cango(i-1 , j, grid , visite))
+       {
+           
+           f(grid , visite , i-1 , j);
+       }
+       
+        // left
+       if(cango(i , j-1, grid , visite))
+       {
+           
+           f(grid , visite , i , j-1);
+       }
+       
+        // right
+       if(cango(i , j+1, grid , visite))
+       {
+           
+           f(grid , visite , i , j+1);
+       }
+       
+        // drd
+       if(cango(i+1 , j+1, grid , visite))
+       {
+           
+           f(grid , visite , i+1 , j+1);
+       }
+       
+        // dld
+       if(cango(i+1 , j-1, grid , visite))
+       {
+           
+           f(grid , visite , i+1 , j-1);
+       }
+       
+        // urd
+       if(cango(i-1 , j+1, grid , visite))
+       {
+           
+           f(grid , visite , i-1 , j+1);
+       }
+       
+        // uld
+       if(cango(i-1, j-1, grid , visite))
+       {
+           
+           f(grid , visite , i-1 , j-1);
+       }
+       
+       
+   }
+    int countIslands(vector<vector<char>>& grid) {
+        // Code here
+         n= grid.size();
+        
+         m= grid[0].size();
+         int ans=0;
+        
+        vector<vector<bool>>visite(n , vector<bool>(m , false));
+        
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<m;j++)
+            {
+                if(grid[i][j]=='L' && !visite[i][j])
+                {
+                    ans++;
+                    f(grid , visite , i , j);
+                }
+            }
+        }
+        
+        return ans;
+    }
+};

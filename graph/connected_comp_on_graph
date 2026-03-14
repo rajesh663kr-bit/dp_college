@@ -1,0 +1,71 @@
+class Solution {
+  public:
+  
+  void f(int s , int d ,vector<vector<int>>&v , bool dir )
+  {
+       v[s].push_back(d);
+        if(dir)
+        {
+            v[d].push_back(s);
+        }
+  }
+  
+  
+  
+  void f1(vector<vector<int>>&ans ,vector<vector<int>>&v, int s , vector<bool>&visit )
+  {
+      queue<int>q;
+      q.push(s);
+      visit[s]=true;
+      vector<int>temp;
+      while(!q.empty())
+      {
+         int s= q.front();
+            q.pop();
+            int n1=v[s].size();
+            temp.push_back(s);
+            
+            for(int i=0;i<n1;i++)
+            {
+                if(!visit[v[s][i]])
+                {
+                    q.push(v[s][i]);
+                    visit[v[s][i]]=true;
+                }
+            }
+      }
+      
+      sort(temp.begin() , temp.end());
+      ans.push_back(temp);
+  }
+  
+  
+    vector<vector<int>> getComponents(int n, vector<vector<int>>& edges) {
+        // code here
+        vector<bool>visit(n , false);
+        
+        vector<vector<int>>v(n);
+        
+        for(int i=0;i<edges.size();i++)
+        {
+            int s=edges[i][0];
+            int d= edges[i][1];
+            
+            f(s, d,v,true);
+        }
+        
+        
+        vector<vector<int>>ans;
+        
+        for(int i=0;i<n;i++)
+        {
+            if(!visit[i])
+            {
+                f1(ans ,v, i , visit);
+            }
+        }
+        
+        
+        return ans;
+    }
+};

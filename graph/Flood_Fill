@@ -1,0 +1,35 @@
+class Solution {
+public:
+int n;
+int m;
+
+void dfs(vector<vector<int>>& image, int sr, int sc, int color , int old_col)
+{
+    if(sr<0 ||sr>=n|| sc<0||sc>=m||image[sr][sc]!=old_col) return ;
+
+    image[sr][sc]=color;
+    
+    //up
+    dfs( image , sr-1 , sc , color , old_col );
+    //down
+     dfs( image , sr+1 , sc , color , old_col );
+     //righr
+      dfs( image , sr , sc+1 , color , old_col );
+
+      //left
+       dfs( image , sr , sc-1 , color , old_col );
+
+    
+
+}
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int color) {
+        n= image.size();
+        m= image[0].size();
+        int old_col=image[sr][sc];
+        if(old_col == color) return image; 
+
+       dfs(image , sr , sc , color , image[sr][sc]);
+
+       return image;
+    }
+};

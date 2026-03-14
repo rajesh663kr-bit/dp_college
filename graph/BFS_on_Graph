@@ -1,0 +1,32 @@
+class Solution {
+  public:
+    vector<int> bfs(vector<vector<int>> &adj) {
+        // code here
+        int n= adj.size();
+        
+        vector<bool>visit(n , false);
+        queue<int>q;
+        vector<int>ans;
+        
+        q.push(0);
+        visit[0]=true;
+        
+        while(!q.empty())
+        {
+            int s= q.front();
+            q.pop();
+            int n1=adj[s].size();
+            ans.push_back(s);
+            
+            for(int i=0;i<n1;i++)
+            {
+                if(!visit[adj[s][i]])
+                {
+                    q.push(adj[s][i]);
+                    visit[adj[s][i]]=true;
+                }
+            }
+        }
+        return ans;
+    }
+};
